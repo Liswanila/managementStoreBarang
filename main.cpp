@@ -216,9 +216,9 @@ void search_nama()
 			if(cari == T.namabarang[i])
 			{
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
-				cout << "Nama barang	: " << T.namabarang[i] << endl;
-				cout << "Harga	: Rp. " << T.hargabarang[i] << endl;
-				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
+				cout << "Nama Barang	: " << T.namabarang[i] << endl;
+				cout << "Harga Barang	: Rp. " << T.hargabarang[i] << endl;
+				cout << "Jumlah Barang	: " << T.jumlahbarang[i] << endl;
 			}
 			else if(i > T.atas)
 			{
@@ -245,9 +245,9 @@ void search_jumlah()
 			if(cari == T.jumlahbarang[i])
 			{
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
-				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
-				cout << "Nama barang	: " << T.namabarang[i] << endl;
-				cout << "Harga	: Rp. " << T.hargabarang[i] << endl;
+				cout << "Jumlah Barang	: " << T.jumlahbarang[i] << endl;
+				cout << "Nama Barang	: " << T.namabarang[i] << endl;
+				cout << "Harga Barang	: Rp. " << T.hargabarang[i] << endl;
 			}
 			else if(i > T.atas)
 			{
@@ -274,9 +274,9 @@ void search_harga()
 			if(cari == T.hargabarang[i])
 			{
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
-				cout << "Harga		: Rp. " << T.hargabarang[i] << endl;
-				cout << "Nama barang	: " << T.namabarang[i] << endl;	
-				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
+				cout << "Harga Barang	: Rp. " << T.hargabarang[i] << endl;
+				cout << "Nama Barang	: " << T.namabarang[i] << endl;	
+				cout << "Jumlah Barang	: " << T.jumlahbarang[i] << endl;
 			}
 			else if(i > T.atas)
 			{
@@ -457,7 +457,7 @@ int main()
 			system("cls");
 			
 			cout << "\nINPUT BARANG" << endl;
-			cout << "\nMasukkan banyak barang yang akan dimasukkan ke rak (max 20) : ";
+			cout << "\nMasukkan banyak barang yang akan dimasukkan ke rak: ";
 			cin >> n;
 			
 			for(int i = 0; i < n; ++i)
