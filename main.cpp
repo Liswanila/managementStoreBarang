@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -12,7 +11,7 @@ int main();
 struct tumpukan
 {
 	int atas;
-	int nobarang[max];
+	int jumlahbarang[max];
 	string namabarang[max];
 	int hargabarang[max];
 }T;
@@ -38,12 +37,12 @@ int penuh()
 		return 0;
 }
 
-void input_barang(string namabarang, int hargabarang, int nobarang)
+void input_barang(string namabarang, int hargabarang, int jumlahbarang)
 {
 	if(kosong() == 1)
 	{
 		T.atas++;
-		T.nobarang[T.atas] = nobarang;
+		T.jumlahbarang[T.atas] = jumlahbarang;
 		T.namabarang[T.atas] = namabarang;
 		T.hargabarang[T.atas] = hargabarang;
 		cout << "\n" << T.namabarang[T.atas] << " sudah masuk ke rak no " << T.atas+1 <<endl;
@@ -51,7 +50,7 @@ void input_barang(string namabarang, int hargabarang, int nobarang)
 	else if(penuh() == 0)
 	{
 		T.atas++;
-		T.nobarang[T.atas] = nobarang;
+		T.jumlahbarang[T.atas] = jumlahbarang;
 		T.namabarang[T.atas] = namabarang;
 		T.hargabarang[T.atas] = hargabarang;
 		cout << "\n" << T.namabarang[T.atas] << " sudah masuk ke rak no " << T.atas+1 << endl;
@@ -70,36 +69,32 @@ void tampilkan_barang()
 		{
 			cout << "\n Barang terletak di rak no " << i+1 << endl;
 			cout << "Nama Barang	: " << T.namabarang[i] << endl;
-			cout << "Harga			: Rp. " << T.hargabarang[i] << endl;
-			cout << "Kode Barang	: " << T.nobarang[i] << endl;
+			cout << "Harga Barang	: Rp. " << T.hargabarang[i] << endl;
+			cout << "Jumlah Barang	: " << T.jumlahbarang[i] << endl;
 		}
 	}
 	else
 		cout << "\nRak masih kosong\n";
 }
 
-void edit()
+void edit_harga()
 {
 	if(kosong() == 0)
 	{
-		int ganti, i;
-		
 		tampilkan_barang();
 		
-		cout << "\n\nMasukkan kode barang yang akan diubah : ";
-		cin >> ganti;
+		string ganti, i;
+		
+		cout << "\nMasukkan Nama barang yang akan diubah : ";
+		getline(cin, ganti);
 		cin.ignore();
 		
-		for(i = 0; i <= T.atas + 1; ++i)
+		for(int i = 0; i <= T.atas+1; ++i)
 		{
-			if(ganti == T.nobarang[i])
+			if(ganti == T.namabarang[i])
 			{
-				cout << "Masukkan nama barang baru : ";
-				getline(cin, T.namabarang[i]);
 				cout << "Masukkan harga barang baru : ";
 				cin >> T.hargabarang[i];
-				cout << "Masukkan kode barang baru : ";
-				cin >> T.nobarang[i];
 				cout << "\n\nData berhasil diubah\n";
 			}
 			else if(i > T.atas)
@@ -110,68 +105,37 @@ void edit()
 		cout << "\nRak masih kosong\n";
 }
 
-void hapus()
+void edit_jumlah()
 {
 	if(kosong() == 0)
 	{
 		tampilkan_barang();
 		
-		string tempnama;
-		int temp, tempno, kode;
-		int berhasil = 0;
-		int i, j;
-		int  tempharga;
+		string ganti, i;
 		
-		cout << "\nMasukkan Kode barang yang akan dihapus : ";
-		cin >> kode;
+		cout << "\nMasukkan Nama barang yang akan diubah : ";
+		getline(cin, ganti);
+		cin.ignore();
 		
-		for(i = 0; i < T.atas + 1; ++i)
+		for(int i = 0; i < T.atas+1; ++i)
 		{
-			for(j = 0; j < T.atas + 1; ++j)
+			if(ganti == T.namabarang[i])
 			{
-				if(kode == T.nobarang[j])
-				{
-					tempno = T.nobarang[j];
-					T.nobarang[j] = T.nobarang[j+1];
-					T.nobarang[j+1] = temp;
-					
-					tempnama = T.namabarang[j];
-					T.namabarang[j] = T.namabarang[j+1];
-					T.namabarang[j+1] = temp;
-					
-					tempharga = T.hargabarang[j];
-					T.hargabarang[j] = T.hargabarang[j+1];
-					T.hargabarang[j+1] = temp;
-					
-					berhasil = 1;
-				}
+				cout << "Masukkan jumlah barang baru : ";
+				cin >> T.jumlahbarang[i];
+				cout << "\n\nData berhasil diubah\n";
 			}
-		}
-		if(berhasil == 1)
-		{
-			cout << "\nBarang berhasil dihapus\n";
-			T.atas--;
-		}
-		else if(berhasil == 0)
-		{
-			cout << "\nMaaf barang tidak ditemukan" << endl;
+			else if(i >= T.atas)
+				cout << "\nBarang tidak ditemukan" << endl;
 		}
 	}
 	else
-	{
 		cout << "\nRak masih kosong\n";
-	}
-}
-
-void bersih()
-{
-	T.atas = -1;
-	cout << " ";
 }
 
 void sorting_nama()
 {
-	int i, j, tempno;
+	int i, j, tempjumlah;
 	string tempnama;
 	int tempharga;
 	
@@ -184,14 +148,6 @@ void sorting_nama()
 				tempnama = T.namabarang[j];
 				T.namabarang[j] = T.namabarang[j+1];
 				T.namabarang[j+1] = tempnama;
-				
-				tempno = T.nobarang[j];
-				T.nobarang[j] = T.nobarang[j+1];
-				T.nobarang[j+1] = tempno;
-				
-				tempharga = T.hargabarang[j];
-				T.hargabarang[j] = T.hargabarang[j+1];
-				T.hargabarang[j+1] = tempharga;
 			}
 		}
 	}
@@ -200,9 +156,9 @@ void sorting_nama()
 	tampilkan_barang();
 }
 
-void sorting_kode()
+void sorting_jumlah()
 {
-	int i, j, tempno;
+	int i, j, tempjumlah;
 	string tempnama;
 	int tempharga;
 	
@@ -210,30 +166,22 @@ void sorting_kode()
 	{
 		for(j = 0; j < (T.atas-i); ++j)
 		{
-			if(T.nobarang[j] > T.nobarang[j+1])
+			if(T.jumlahbarang[j] > T.jumlahbarang[j+1])
 			{
-				tempno = T.nobarang[j];
-				T.nobarang[j] = T.nobarang[j+1];
-				T.nobarang[j+1] = tempno;
-				
-				tempnama = T.namabarang[j];
-				T.namabarang[j] = T.namabarang[j+1];
-				T.namabarang[j+1] = tempnama;
-				
-				tempharga = T.hargabarang[j];
-				T.hargabarang[j] = T.hargabarang[j+1];
-				T.hargabarang[j+1] = tempharga;
+				tempjumlah = T.jumlahbarang[j];
+				T.jumlahbarang[j] = T.jumlahbarang[j+1];
+				T.jumlahbarang[j+1] = tempjumlah;
 			}
 		}
 	}
 	system("cls");
-	cout << "\nBarang setelah diurutkan menurut Kode Barang " << endl;
+	cout << "\nBarang setelah diurutkan menurut Jumlah Barang " << endl;
 	tampilkan_barang();
 }
 
 void sorting_harga()
 {
-	int i, j, tempno;
+	int i, j, tempjumlah;
 	string tempnama;
 	int tempharga;
 	
@@ -246,14 +194,6 @@ void sorting_harga()
 				tempharga = T.hargabarang[j];
 				T.hargabarang[j] = T.hargabarang[j+1];
 				T.hargabarang[j+1] = tempharga;
-				
-				tempno = T.nobarang[j];
-				T.nobarang[j] = T.nobarang[j+1];
-				T.nobarang[j+1] = tempno;
-				
-				tempnama = T.namabarang[j];
-				T.namabarang[j] = T.namabarang[j+1];
-				T.namabarang[j+1] = tempnama;
 			}
 		}
 	}
@@ -278,7 +218,7 @@ void search_nama()
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
 				cout << "Nama barang	: " << T.namabarang[i] << endl;
 				cout << "Harga	: Rp. " << T.hargabarang[i] << endl;
-				cout << "Kode barang	: " << T.nobarang[i] << endl;
+				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
 			}
 			else if(i > T.atas)
 			{
@@ -291,7 +231,7 @@ void search_nama()
 		cout << "\nRak masih kosong\n";
 }
 
-void search_kode()
+void search_jumlah()
 {
 	if(kosong() == 0)
 	{
@@ -302,10 +242,10 @@ void search_kode()
 		
 		for(int i = 0; i <= T.atas+1; ++i)
 		{
-			if(cari == T.nobarang[i])
+			if(cari == T.jumlahbarang[i])
 			{
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
-				cout << "Kode barang	: " << T.nobarang[i] << endl;
+				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
 				cout << "Nama barang	: " << T.namabarang[i] << endl;
 				cout << "Harga	: Rp. " << T.hargabarang[i] << endl;
 			}
@@ -335,8 +275,8 @@ void search_harga()
 			{
 				cout << "\nBarang ada pada rak no " << i+1 << endl;
 				cout << "Harga		: Rp. " << T.hargabarang[i] << endl;
-				cout << "Kode barang	: " << T.nobarang[i] << endl;
 				cout << "Nama barang	: " << T.namabarang[i] << endl;	
+				cout << "Jumlah barang	: " << T.jumlahbarang[i] << endl;
 			}
 			else if(i > T.atas)
 			{
@@ -349,13 +289,58 @@ void search_harga()
 		cout << "\nRak masih kosong\n";
 }
 
+void hapus()
+{
+	if(kosong() == 0)
+	{
+		tampilkan_barang();
+		
+		string tempnama, nama;
+		int temp;
+		int berhasil = 0;
+		int i, j;
+		
+		cout << "\nMasukkan Nama barang yang akan dihapus : ";
+		cin.ignore();
+		getline(cin, nama);
+		
+		for(int i = 0; i < T.atas+1; ++i)
+		{
+			for(int j = 0; j < T.atas+1; ++j)
+			{
+				if(nama == T.namabarang[j])
+				{		
+					tempnama = T.namabarang[j];
+					T.namabarang[j] = T.namabarang[j+1];
+					T.namabarang[j+1] = temp;
+								
+					berhasil = 1;
+				}
+			}
+		}
+		if(berhasil == 1)
+		{
+			cout << "\nBarang berhasil dihapus\n";
+			T.atas--;
+		}
+		else
+		{
+			cout << "\nMaaf barang tidak ditemukan" << endl;
+		}
+	}
+	else
+	{
+		cout << "\nRak masih kosong\n";
+	}
+}
+
 void menu_sorting()
 {
 	int pilihan;
 	
-	cout << "1. Mengurutkan Menurut Nama Barang\n";
-	cout << "2. Mengurutkan Menurut Kode Barang\n";
-	cout << "3. Mengurutkan Menurut Harga Barang\n";
+	cout << "1. Urutkan Berdasarkan Nama Barang\n";
+	cout << "2. Urutkan Berdasarkan Jumlah Barang\n";
+	cout << "3. Urutkan Berdasarkan Harga Barang\n";
 	cout << "4. Kembali ke Menu Awal\n";
 	cout << "Masukkan pilihan : ";
 	cin >> pilihan;
@@ -367,7 +352,7 @@ void menu_sorting()
 		break;
 		
 		case 2:
-		sorting_kode();
+		sorting_jumlah();
 		break;
 		
 		case 3:
@@ -384,9 +369,9 @@ void menu_search()
 {
 	int pilihan;
 	
-	cout << "1. Mencari Menggunakan Nama Barang\n";
-	cout << "2. Mencari Menggunakan Kode Barang\n";
-	cout << "3. Mencari Menggunakan Harga Barang\n";
+	cout << "1. Cari Berdasarkan Nama Barang\n";
+	cout << "2. Cari Berdasarkan Jumlah Barang\n";
+	cout << "3. Cari Berdasarkan Harga Barang\n";
 	cout << "4. Kembali ke Menu Awal\n";
 	cout << "Masukkan pilihan : ";
 	cin >> pilihan;
@@ -399,11 +384,38 @@ void menu_search()
 		break;
 		
 		case 2:
-		search_kode();
+		search_jumlah();
 		break;
 		
 		case 3:
 		search_harga();
+		break;
+		
+		case 4:
+		int main();
+		break;
+	}
+}
+
+void menu_edit()
+{
+	int pilihan;
+	
+	cout << "1. Edit Harga Barang\n";
+	cout << "2. Edit Jumlah Barang\n";
+	cout << "3. Kembali ke Menu Awal\n";
+	cout << "Masukkan pilihan : ";
+	cin >> pilihan;
+	cin.ignore();
+	
+	switch(pilihan)
+	{
+		case 1:
+		edit_harga();
+		break;
+		
+		case 2:
+		edit_jumlah();
 		break;
 		
 		case 4:
@@ -417,7 +429,7 @@ int main()
 	awal();
 	system("cls");
 	
-	int pilihan, n, nobarang[max];
+	int pilihan, n, jumlahbarang[max];
 	string namabarang[max];
 	int hargabarang[max];
 	
@@ -429,13 +441,12 @@ int main()
 		cout << "\t\t===================================================" << endl;
 		cout << "\t\t                    MENU UTAMA                    " << endl;
 		cout << "\n 1. Input barang";
-		cout << "\n 2. Hapus barang";
-		cout << "\n 3. Tampilkan barang";
+		cout << "\n 2. Tampilkan barang";
+		cout << "\n 3. Edit barang";
 		cout << "\n 4. Urutkan barang";
 		cout << "\n 5. Cari barang";
-		cout << "\n 6. Edit barang";
-		cout << "\n 7. Bersihkan Rak";
-		cout << "\n 8. Keluar";
+		cout << "\n 6. Hapus barang";
+		cout << "\n 7. Keluar";
 		cout << "\nMasukkan pilihan : ";
 		cin >> pilihan;
 		
@@ -445,7 +456,7 @@ int main()
 			
 			system("cls");
 			
-			cout << "\n\t INPUT BARANG" << endl;
+			cout << "\nINPUT BARANG" << endl;
 			cout << "\nMasukkan banyak barang yang akan dimasukkan ke rak (max 20) : ";
 			cin >> n;
 			
@@ -460,10 +471,10 @@ int main()
 				cin >> hargabarang[i];
 				cin.ignore();
 				
-				cout << "Kode Barang	: ";
-				cin >> nobarang[i];
+				cout << "Jumlah Barang	: ";
+				cin >> jumlahbarang[i];
 				
-				input_barang(namabarang[i], hargabarang[i], nobarang[i]);
+				input_barang(namabarang[i], hargabarang[i], jumlahbarang[i]);
 			}
 			break;
 			
@@ -471,23 +482,23 @@ int main()
 			
 			system("cls");
 			
-			cout << "\n\t HAPUS BARANG" << endl;
-			hapus();
+			cout << "\nTAMPILKAN BARANG" << endl;
+			tampilkan_barang();
 			break;
 			
 			case 3:
 			
 			system("cls");
 			
-			cout << "\n\t TAMPILKAN BARANG" << endl;
-			tampilkan_barang();
+			cout << "\nMENGEDIT BARANG" << endl;
+			menu_edit();
 			break;
 			
 			case 4:
 			
 			system("cls");
 			
-			cout << "\n\t MENGURUTKAN BARANG" << endl;
+			cout << "\nMENGURUTKAN BARANG" << endl;
 			menu_sorting();
 			break;
 			
@@ -495,7 +506,7 @@ int main()
 			
 			system("cls");
 			
-			cout << "\n\t MENCARI BARANG" << endl;
+			cout << "\nMENCARI BARANG" << endl;
 			menu_search();
 			break;
 			
@@ -503,23 +514,15 @@ int main()
 			
 			system("cls");
 			
-			cout << "\n\t MENGEDIT BARANG" << endl;
-			edit();
+			cout << "\nHAPUS BARANG" << endl;
+			hapus();
 			break;
 			
 			case 7:
 			
 			system("cls");
 			
-			cout << "\n\t RAK SUDAH BERSIH" << endl;
-			bersih();
-			break;
-			
-			case 8:
-			
-			system("cls");
-			
-			cout << "\n\n\t\t===================================================" << endl;
+			cout << "\n\t\t===================================================" << endl;
 			cout << "\t\t=================== TERIMAKASIH ===================" << endl;
 			cout << "\t\t===================================================" << endl;
 			cout << endl;
@@ -528,5 +531,5 @@ int main()
 		system("pause");
 		system("cls");
 	}
-	while(pilihan != 8);
+	while(pilihan != 7);
 }
